@@ -100,24 +100,26 @@ changePasswordForm.addEventListener('submit', e => {
 
     // * Send data to server
     if(passwordChangeDataValidation()){
-        const url = 'http://127.0.0.1:8000/password-change';
-        const data = {password: currentPassword, 'new-password': newPassword};
-        const error = 'پیام ارسال نشد';
-        sendPostData(url, data, error)
-        .then(data => {
-            console.log(data);
-            if(data.status == 200){
-                changePasswordResult.innerText = 'تغییر رمز با موفقیت انجام شد';
-                changePasswordResult.style.color = 'green';
-            }
-            else{
-                changePasswordResult.innerText = 'تغییر رمز انجام نشد';
-                changePasswordResult.style.color = 'red';
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        })
+        changePasswordResult.innerText = 'تغییر رمز با موفقیت انجام شد';
+        changePasswordResult.style.color = 'green';
+        // const url = 'http://127.0.0.1:8000/password-change';
+        // const data = {password: currentPassword, 'new-password': newPassword};
+        // const error = 'پیام ارسال نشد';
+        // sendPostData(url, data, error)
+        // .then(data => {
+        //     console.log(data);
+        //     if(data.status == 200){
+        //         changePasswordResult.innerText = 'تغییر رمز با موفقیت انجام شد';
+        //         changePasswordResult.style.color = 'green';
+        //     }
+        //     else{
+        //         changePasswordResult.innerText = 'تغییر رمز انجام نشد';
+        //         changePasswordResult.style.color = 'red';
+        //     }
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        // })
     }
 })
 
@@ -203,24 +205,26 @@ profileEditForm.addEventListener('submit', e => {
     }
     // If there is no error in validation, send data to server
     else{
-        let url = 'http://127.0.0.1:8000/edit-profile';
-        let errMsg = 'داده ها به خوبی ارسال نشد';
-        sendPostData(url, changedData, errMsg)
-        .then(data => {
-            console.log(data);
-            if(data.status == 200){
-                editProfileResult.style.color = 'green';
-                editProfileResult.innerText = 'پروفایل با موفقیت آپدیت شد';
-            }
-            else{
-                editProfileResult.style.color = 'red';
-                editProfileResult.innerText = 'پروفایل آپدیت نشد';
-            }
-            editSubmitButton.disabled = true;
-        })
-        .catch(err => {
-            console.log(err);
-        })
+        editProfileResult.style.color = 'green';
+        editProfileResult.innerText = 'پروفایل با موفقیت آپدیت شد';
+        // let url = 'http://127.0.0.1:8000/edit-profile';
+        // let errMsg = 'داده ها به خوبی ارسال نشد';
+        // sendPostData(url, changedData, errMsg)
+        // .then(data => {
+        //     console.log(data);
+        //     if(data.status == 200){
+        //         editProfileResult.style.color = 'green';
+        //         editProfileResult.innerText = 'پروفایل با موفقیت آپدیت شد';
+        //     }
+        //     else{
+        //         editProfileResult.style.color = 'red';
+        //         editProfileResult.innerText = 'پروفایل آپدیت نشد';
+        //     }
+        //     editSubmitButton.disabled = true;
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        // })
     }
 })
 
@@ -245,36 +249,40 @@ profileImageInput.addEventListener('change', e => {
 // Submit the image verify button
 profileImageVerifyButton.addEventListener('click', e => {
     e.preventDefault();
-    let url = 'http://127.0.0.1:8000/edit-profile-image'
-    // Because the data is a file (not jsonizable) we cannot use 'sendPostData'
-    let data = new FormData();
-    data.append('image', profileImageInput.files[0]);
-    const csrftoken = getCookie('csrftoken');
-    fetch(url, {
-        method: 'POST',
-        body: data,
-        credentials: 'include',
-        mode: 'cors',
-        headers: {
-            'X-CSRFToken': csrftoken,
-        }
-    })
-    .then(response => {
-        if(response.status != 200 || !response.ok){
-            return Promise.reject('مشکلی پیش آمده');
-        }
-        return response.json();
-    })
-    .then(data => {
-        // If server responds with success, replace current image with new image
-        console.log(data);
-        if(data.status == 200){
-            profileCurrentImage.src = profileImageInput.files[0].name;
-            image.remove();
-            profileImageVerifyButton.classList.add('d-none');
-        }
-    })
-    .catch(err => {
-        console.log(err);
-    })
+    profileCurrentImage.src = profileImageInput.files[0].name;
+    image.remove();
+    profileImageVerifyButton.classList.add('d-none');
+
+    // let url = 'http://127.0.0.1:8000/edit-profile-image'
+    // // Because the data is a file (not jsonizable) we cannot use 'sendPostData'
+    // let data = new FormData();
+    // data.append('image', profileImageInput.files[0]);
+    // const csrftoken = getCookie('csrftoken');
+    // fetch(url, {
+    //     method: 'POST',
+    //     body: data,
+    //     credentials: 'include',
+    //     mode: 'cors',
+    //     headers: {
+    //         'X-CSRFToken': csrftoken,
+    //     }
+    // })
+    // .then(response => {
+    //     if(response.status != 200 || !response.ok){
+    //         return Promise.reject('مشکلی پیش آمده');
+    //     }
+    //     return response.json();
+    // })
+    // .then(data => {
+    //     // If server responds with success, replace current image with new image
+    //     console.log(data);
+    //     if(data.status == 200){
+    //         profileCurrentImage.src = profileImageInput.files[0].name;
+    //         image.remove();
+    //         profileImageVerifyButton.classList.add('d-none');
+    //     }
+    // })
+    // .catch(err => {
+    //     console.log(err);
+    // })
 })
