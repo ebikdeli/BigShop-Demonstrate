@@ -42,62 +42,61 @@
 
 
     <!-- **** 'header' block in 'base.html/include header.html' **** -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary no-print" style="background-color: grey;">
-        <div class="container-fluid justify-content-between px-5">
-            <!-- navbar links section -->
-            <div class="col-md-5" id="navbar-links">
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                        <li class="nav-item px-2">
-                            <a class="nav-link active" aria-current="page" href="#">About Us</a>
-                        </li>
-                        <li class="nav-item px-2">
-                            <a class="nav-link" href="#">Latest Products</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Category
-                            </a>
-                            <!-- This is where all Categories placed -->
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: grey;">
+        <div class="container-fluid mx-auto px-5 justify-content-between align-items-center flex-wrap">
+          <!-- navbar links section -->
+          <div class="col-xl-4 col-lg-5 col-md-5 col-sm-6 col-6" id="navbar-links">
+            <div class="collapse navbar-collapse" id="navbarScroll">
+              <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item px-2">
+                  <a class="navbar-brand" href="#"><img src="./images/logo.jpg" alt="BigShop" class="img-thumbnail"></a>
+                </li>
+                <li class="nav-item px-2">
+                  <a class="nav-link active" aria-current="page" href="#">About Us</a>
+                </li>
+                <li class="nav-item px-2">
+                  <a class="nav-link" href="#">Latest Products</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Category
+                  </a>
+                  <!-- This is where all Categories placed -->
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li>
+              </ul>
             </div>
-            <!-- navbar logo section -->
-            <div class="" id='navbar-logo'>
-                <div>
-                    <a class="navbar-brand" href="#"><img src="./images/logo.jpg" alt="BigShop"
-                            class="img-thumbnail"></a>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
-                    aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+          </div>
+          <!-- navbar logo section and dropdown button -->
+          <div class="col-lg-1 col-md-10 col-sm-10 col-12 text-center mx-auto justify-content-around align-items-center" id='navbar-logo'>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+              aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+          <!-- Search/login section -->
+          <div class="px-2 col-xl-4 col-lg-5 col-md-8 col-sm-12 col-12 d-flex justify-content-end align-items-center" id="search-login">
+            <div class="w-100" id="search-form-box">
+              <!-- Search Form -->
+              <form class="d-flex justify-content-end align-items-center flex-md-row flex-sm-column flex-column" role="button">
+                <input id="search-input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
             </div>
-            <!-- Search/login section -->
-            <div id="search-login" class="d-flex px-2 col-md-5 justify-content-end align-items-center">
-                <div id="search-form">
-                    <!-- Search Form -->
-                    <form class="d-flex" role="button">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                </div>
-                <!-- login/signup (In navbar for future use) -->
-
-            </div>
-
+            <!-- login/signup (In navbar for future use) -->
+    
+          </div>
+    
         </div>
-    </nav>
+      </nav>
     <!-- **** 'header' block in 'base.html/include header.html' **** -->
 
 
