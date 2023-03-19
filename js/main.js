@@ -1,35 +1,49 @@
 // * When import a module, we should import the script with '.js' extension. JS module rules are weird!
 import getCookie from './csrftoken.js';
 import { validateEmail } from './functions.js';
-import {sendPostData} from './ajax.js';
+import { sendPostData } from './ajax.js';
 
 
 
 // *** Add to cart button
 const addCartButtons = document.querySelectorAll('.add-to-cart');
+const cartQuantity = document.querySelector('.s-cart-number > p');
+let quantityValue = Number(cartQuantity.innerText);
+
 Array.from(addCartButtons).forEach(cartButton => {
     cartButton.addEventListener('click', e => {
         e.preventDefault();
-        let url = 'http://127.0.0.1:8000/add-product-cart';
-        let data = {product_id: cartButton.getAttribute('data-product-id'), product_number: 1};
-        let err = 'ارتباط با سرور مشکل دارد';
-        sendPostData(url, data, err)
-        .then(data => {
-            console.log(data);
-            if(data.status == 200){
-                Array.from(cartButton.parentElement.children).forEach(elem => {
-                    if(elem.hasAttribute('success')){
-                        elem.classList.remove('d-none');
-                        setTimeout(() => {
-                            elem.classList.add('d-none');
-                        }, 3000);
-                    }
-                })
+        Array.from(cartButton.parentElement.children).forEach(elem => {
+            if (elem.hasAttribute('success')) {
+                console.log('add');
+                quantityValue += 1;
+                cartQuantity.innerText = quantityValue;
+                elem.classList.remove('d-none');
+                setTimeout(() => {
+                    elem.classList.add('d-none');
+                }, 3000);
             }
         })
-        .catch(err => {
-            console.log(err);
-        })
+        //     let url = 'http://127.0.0.1:8000/add-product-cart';
+        //     let data = {product_id: cartButton.getAttribute('data-product-id'), product_number: 1};
+        //     let err = 'ارتباط با سرور مشکل دارد';
+        //     sendPostData(url, data, err)
+        //     .then(data => {
+        //         console.log(data);
+        //         if(data.status == 200){
+        //             Array.from(cartButton.parentElement.children).forEach(elem => {
+        //                 if(elem.hasAttribute('success')){
+        //                     elem.classList.remove('d-none');
+        //                     setTimeout(() => {
+        //                         elem.classList.add('d-none');
+        //                     }, 3000);
+        //                 }
+        //             })
+        //         }
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
     })
 })
 
@@ -44,9 +58,9 @@ let prForm = document.forms['pr-form'];
 
 // ** Send data to server **
 // * Helper function using 'async'
-let sendPrData = async (url=new String, form=new FormData ,errorMsg=new String) => {
+let sendPrData = async (url = new String, form = new FormData, errorMsg = new String) => {
     const csrftoken = getCookie('csrftoken');
-    try{
+    try {
         let response = await fetch(url, {
             method: 'POST',
             body: form,
@@ -57,13 +71,13 @@ let sendPrData = async (url=new String, form=new FormData ,errorMsg=new String) 
             },
         })
         console.log(response);
-        if (response.status !== 200){
+        if (response.status !== 200) {
             return Promise.reject(errorMsg);
         }
         return await response.json();
     }
-    catch(err){
-        if(err instanceof TypeError){
+    catch (err) {
+        if (err instanceof TypeError) {
             return Promise.reject('اتصال با سرور برقرار نشد');
         }
     }
@@ -72,12 +86,16 @@ let sendPrData = async (url=new String, form=new FormData ,errorMsg=new String) 
 
 
 // * This Eventlistener used for submitting the PrForm and validate user data in front-end
-prForm.addEventListener('submit', e =>{
+prForm.addEventListener('submit', e => {
     e.preventDefault();
     let form = new FormData(prForm);
     let email = form.get('email');
     let content = form.get('content');
-    if(!email || !validateEmail(email) || !content){
+    let emailError = document.querySelector('.email-error');
+    emailError.textContent = '';
+    let contentError = document.querySelector('.content-error');
+    contentError.textContent = '';
+    if (!email || !validateEmail(email) || !content) {
         // * Below block is more soffesticated way to show errors to users but we don't want this for now!
         // let formEmailSection = document.querySelector('#form-email-section');
         // let errorMessageDiv = document.createElement('div');
@@ -88,44 +106,46 @@ prForm.addEventListener('submit', e =>{
         // * Following line is way more brief than above block of code
         let errorMessage = document.querySelector('#form-email-section > div > p')
 
-        if(!content){
+        if (!content) {
             let errorMessage = document.querySelector('#form-content-section > div > p');
-            errorMessage.textContent = 'پیام خود را وارد کنید';
+            contentError.textContent = 'پیام خود را وارد کنید';
             let contentInput = document.querySelector('#content-input');
             contentInput.style.borderColor = 'red';
         }
 
-        if(!email){
-            errorMessage.textContent = 'ایمیل خود را وارد کنید';
+        if (!email) {
+            emailError.textContent = 'ایمیل خود را وارد کنید';
         }
-        else{
-            errorMessage.textContent = 'ایمیل خود را به درستی وارد کنید';
+        else if(!validateEmail(email)) {
+            emailError.textContent = 'ایمیل خود را به درستی وارد کنید';
         }
         let emailInput = document.getElementById('email-input');
         emailInput.style.borderColor = 'red';
     }
-    
+
     // * After sending email and content, clear error messages and redo red borders
-    else{
+    else {
         document.querySelectorAll('.pr-error > p').forEach(errorP => {
             errorP.textContent = '';
         })
         document.getElementById('email-input').style.borderColor = '#dee2e6';
         document.getElementById('content-input').style.borderColor = '#dee2e6';
 
+        document.querySelector('#pr-success').textContent = 'از همکاری شما سپاسگذاریم';
+
         // Send data to server using ajax
-        sendPrData('http://127.0.0.1:8000/pr', form, 'اطلاعات ارسال نشد')
-        // sendPrData(url='http://ip.jsontest.com/', form=form, errorMsg='اطلاعات ارسال نشد')
-        .then(jsonData => {
-            console.log(jsonData);
-            document.querySelector('#pr-success').textContent = 'از همکاری شما سپاسگذاریم';
-        })
-        .catch(err => {
-            document.querySelector('#pr-failed').textContent = err;
-        })
+        // sendPrData('http://127.0.0.1:8000/pr', form, 'اطلاعات ارسال نشد')
+        //     // sendPrData(url='http://ip.jsontest.com/', form=form, errorMsg='اطلاعات ارسال نشد')
+        //     .then(jsonData => {
+        //         console.log(jsonData);
+        //         document.querySelector('#pr-success').textContent = 'از همکاری شما سپاسگذاریم';
+        //     })
+        //     .catch(err => {
+        //         document.querySelector('#pr-failed').textContent = err;
+        //     })
 
         // Disable 'pr-box' inputs and buttoms and hide the messages 
-        setTimeout(()=>{
+        setTimeout(() => {
             document.querySelector('#pr-failed').textContent = '';
             document.querySelector('#pr-success').textContent = '';
             document.getElementById('email-input').disabled = true;
@@ -133,6 +153,7 @@ prForm.addEventListener('submit', e =>{
             document.querySelector('#send-button').disabled = true;
         }, 2000)
     }
+
 })
 
 
