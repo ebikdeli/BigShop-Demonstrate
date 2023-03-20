@@ -241,6 +241,7 @@ profileImageInput.addEventListener('change', e => {
     image.src = profileImageInput.files[0].name;
     image.width = '150';
     image.height = '150';
+    image.alt = 'تصویر جدید'
     // image.style.borderRadius = '50%';
     profileNewImage.appendChild(image);
     profileImageVerifyButton.classList.remove('d-none');
